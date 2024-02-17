@@ -5,7 +5,6 @@ import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +15,7 @@ import jakarta.annotation.PostConstruct;
 
 @Repository
 public class MongoDBMovieRepository implements MovieRepository {
-    
+
     @Autowired
     private MongoClient client;
     private MongoCollection<Movie> movieCollection;
@@ -30,7 +29,7 @@ public class MongoDBMovieRepository implements MovieRepository {
     void init() {
         movieCollection = client.getDatabase("movies").getCollection("movie3", Movie.class);
     }
-    
+
     /**
      * Datu-basean gordetako film guztiak eskuratzen ditu.
      *
@@ -40,7 +39,7 @@ public class MongoDBMovieRepository implements MovieRepository {
     public List<Movie> findAll() {
         return movieCollection.find().into(new ArrayList<>());
     }
-    
+
     /**
      * Filma bat aurkitzen du bere izenarekin.
      *
@@ -51,11 +50,29 @@ public class MongoDBMovieRepository implements MovieRepository {
     public Movie findByTitle(String title) {
         return movieCollection.find(eq("title", title)).first();
     }
-    
-    /* @Override
-    public Crew findByJob(String job) {
-        return crewCollection.find(eq("job", job)).first();
-    }*/ 
+
+    @Override
+    public List<Cast> findByGender(int gender) {
+        List<Cast> actorsWithGender = new ArrayList<>();
+        Iterable<Movie> allMovies = movieCollection.find();
+
+        for (Movie movie : allMovies) {
+            List<Cast> castList = movie.getCast();
+            for (Cast cast : castList) {
+                if (cast.getGender() == gender) {
+                    actorsWithGender.add(cast);
+                }
+            }
+        }
+
+        return actorsWithGender;
+    }
+
+    @Override
+    public List<Cast> findActor(String name) {
+        return castCollection.find(eq("name", name)).into(new ArrayList<>());
+    }
+
     /**
      * Film berri bat datu-basean gehitzen du.
      *
@@ -67,14 +84,14 @@ public class MongoDBMovieRepository implements MovieRepository {
         movieCollection.insertOne(movie);
         return movie;
     }
-    
+
     /**
      * Filma datu-basean ezabatzen du izenarekin.
      *
      * @param title Ezabatu nahi den filmaaren izena.
      * @return long Ezabatutako film kopurua.
      */
-    @Override 
+    @Override
     public long delete(String title) {
         return movieCollection.deleteMany(eq("title", title)).getDeletedCount();
     }

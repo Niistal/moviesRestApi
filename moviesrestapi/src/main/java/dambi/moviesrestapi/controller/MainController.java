@@ -1,5 +1,7 @@
 package dambi.moviesrestapi.controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +84,6 @@ public class MainController {
      * @param title    Eguneratu nahi den filmaaren izena.
      * @param movie_id Filma berriaren identifikadorea.
      * @param cast     Gehitu nahi den aktorea.
-     * @param crew     Gehitu nahi den produzioko taldeko kidea.
      * @return ResponseEntity<Movie> Eguneratzearen emaitza adierazten duen HTTP
      *         erantzuna.
      */
@@ -96,7 +97,6 @@ public class MainController {
 
             List<Cast> cast_members = m.getCast();
             cast_members.add(cast);
-
 
             movieRepository.save(m);
             return ResponseEntity.ok().build();
@@ -127,4 +127,58 @@ public class MainController {
         }
 
     }
+
+    @GetMapping(path = "/findActor")
+    public @ResponseBody List<Cast> findActor(@RequestParam String name) {
+        List<Cast> actors = new ArrayList<>();
+        Iterable<Movie> allMovies = movieRepository.findAll();
+
+        for (Movie movie : allMovies) {
+            List<Cast> castList = movie.getCast();
+            for (Cast cast : castList) {
+                if (cast.getName().equals(name)) {
+                    actors.add(cast);
+                }
+            }
+        }
+
+        return actors;
+    }
+
+    /**
+     * @param name
+     * @return
+     */
+    @DeleteMapping(path = "/deleteActor/{name}")
+    public ResponseEntity<Void> deleteActor(@PathVariable String name) {
+        try {
+            Iterable<Movie> allMovies = movieRepository.findAll();
+
+
+            for (Movie movie : allMovies) {
+                List<Cast> castList = movie.getCast();
+                Iterator<Cast> iterator = castList.iterator();
+                while (iterator.hasNext()) {
+                    Cast cast = iterator.next();
+                    if (cast.getName().equals(name)) {
+                        iterator.remove();
+                        
+                    }
+                }
+                movieRepository.save(movie);
+            }
+            System.out.println(name + " actorea borratu duzu pelicula guztietatik");
+
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            System.out.println("Errorea borratzeko actorea " + name + ": " + ex.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(path = "/findByGender")
+    public @ResponseBody List<Cast> findByGender(@RequestParam int gender) {
+        return movieRepository.findByGender(gender);
+    }
+
 }

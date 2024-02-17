@@ -12,7 +12,7 @@ public interface MovieRepository {
      * @return List<Movie> Film guztiak bilduko den zerrenda.
      */
     List<Movie> findAll();
-    
+
     /**
      * Filma bat aurkitzen du bere izenarekin.
      *
@@ -20,9 +20,11 @@ public interface MovieRepository {
      * @return Movie Aurkitutako filma edo null ez bada aurkitzen.
      */
     Movie findByTitle(String title);
-    
-    //Crew findByJob(String job);
-    
+
+    List<Cast> findActor(String name);
+
+    List<Cast> findByGender(int gender);
+
     /**
      * Film berri bat datu-basean gehitzen du.
      *
@@ -30,8 +32,8 @@ public interface MovieRepository {
      * @return Movie Gordetutako filma.
      */
 
-    Movie save(Movie title);
-    
+    Movie save(Movie movie);
+
     /**
      * Filma datu-basean ezabatzen du izenarekin.
      *

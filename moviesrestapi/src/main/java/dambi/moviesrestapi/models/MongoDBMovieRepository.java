@@ -20,6 +20,7 @@ public class MongoDBMovieRepository implements MovieRepository {
     @Autowired
     private MongoClient client;
     private MongoCollection<Movie> movieCollection;
+    private MongoCollection<Cast> castCollection;
 
     /**
      * Inizializazioa: MongoDB kolekzioa kargatzen da.
@@ -27,7 +28,7 @@ public class MongoDBMovieRepository implements MovieRepository {
 
     @PostConstruct
     void init() {
-        movieCollection = client.getDatabase("movies").getCollection("movie", Movie.class);
+        movieCollection = client.getDatabase("movies").getCollection("movie3", Movie.class);
     }
     
     /**
@@ -51,6 +52,10 @@ public class MongoDBMovieRepository implements MovieRepository {
         return movieCollection.find(eq("title", title)).first();
     }
     
+    /* @Override
+    public Crew findByJob(String job) {
+        return crewCollection.find(eq("job", job)).first();
+    }*/ 
     /**
      * Film berri bat datu-basean gehitzen du.
      *

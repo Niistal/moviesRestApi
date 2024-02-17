@@ -21,6 +21,8 @@ public interface MovieRepository {
      */
     Movie findByTitle(String title);
     
+    //Crew findByJob(String job);
+    
     /**
      * Film berri bat datu-basean gehitzen du.
      *

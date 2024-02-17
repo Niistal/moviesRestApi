@@ -16,17 +16,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import dambi.moviesrestapi.models.Cast;
-import dambi.moviesrestapi.models.Crew;
+
 import dambi.moviesrestapi.models.Movie;
 import dambi.moviesrestapi.models.MovieRepository;
 
 @RestController
 @RequestMapping(path = "/movies")
 public class MainController {
-    
+
     @Autowired
     private MovieRepository movieRepository;
-    
+    private MovieRepository castRepository;
+
     /**
      * Datu-basean gordetako film guztiak eskuratzen ditu.
      *
@@ -36,7 +37,7 @@ public class MainController {
     public @ResponseBody Iterable<Movie> getMovies() {
         return movieRepository.findAll();
     }
-    
+
     /**
      * Filma bat aurkitzen du bere izenarekin.
      *
@@ -47,7 +48,14 @@ public class MainController {
     public @ResponseBody Movie findMovie(@RequestParam String title) {
         return movieRepository.findByTitle(title);
     }
-    
+
+    /*
+     * @GetMapping(path = "/findcrewjob")
+     * public @ResponseBody Crew findDirector(@RequestParam String job) {
+     * return crewRepository.findByJob(job);
+     * }
+     */
+
     /**
      * Film berri bat datu-basean gehitzen du.
      *
@@ -59,16 +67,15 @@ public class MainController {
      */
     @PostMapping(value = "/addmovie")
     public @ResponseBody String addMovie(@RequestParam int movie_id, @RequestParam String title,
-            @RequestBody List<Cast> cast, @RequestBody List<Crew> crew) {
+            @RequestBody List<Cast> cast) {
         Movie m = new Movie();
         m.setMovieId(movie_id);
         m.setTitle(title);
         m.setCast(cast);
-        m.setCrew(crew);
         movieRepository.save(m);
         return "The movie has been added";
     }
-    
+
     /**
      * Datu-basean dagoen film bat eguneratzen du.
      *
@@ -82,7 +89,7 @@ public class MainController {
 
     @PutMapping(value = "/updatemovie/{title}")
     public ResponseEntity<Movie> updateMovie(@PathVariable String title, @RequestParam int movie_id,
-            @RequestBody Cast cast, @RequestBody Crew crew) {
+            @RequestBody Cast cast) {
         try {
             Movie m = movieRepository.findByTitle(title);
             m.setMovieId(movie_id);
@@ -90,8 +97,6 @@ public class MainController {
             List<Cast> cast_members = m.getCast();
             cast_members.add(cast);
 
-            List<Crew> crew_members = m.getCrew();
-            crew_members.add(crew);
 
             movieRepository.save(m);
             return ResponseEntity.ok().build();
@@ -100,7 +105,7 @@ public class MainController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     /**
      * Filma datu-basean ezabatzen du izenarekin.
      *

@@ -11,7 +11,7 @@ public class Movie {
     private int movieId;
     private String title;
     private List<Cast> cast;
-    private List<Crew> crew;
+
     
     public Movie() {
     }
@@ -24,12 +24,11 @@ public class Movie {
      * @param cast    Filmaren aktoreen zerrenda.
      * @param crew    Filmaren produzioko taldeko kideen zerrenda.
      */
-    public Movie(int movieId, String title, List<Cast> cast, List<Crew> crew) {
+    public Movie(int movieId, String title, List<Cast> cast) {
         
         this.movieId = movieId;
         this.title = title;
         this.cast = cast;
-        this.crew = crew;
     }
     
     /**
@@ -91,19 +90,7 @@ public class Movie {
      *
      * @return List<Crew> Filmaren produzioko taldeko kideen zerrenda.
      */
-    public List<Crew> getCrew() {
-        return crew;
-    }
-    
-    /**
-     * Filmaren produzioko taldeko kideen zerrenda ezartzen du.
-     *
-     * @param crew Filmaren produzioko taldeko kideen zerrenda.
-     */
-    public void setCrew(List<Crew> crew) {
-        this.crew = crew;
-    }
-    
+
     /**
      * Filmaren testu-representazioa itzultzen du.
      *
@@ -111,7 +98,7 @@ public class Movie {
      */
     @Override
     public String toString() {
-        return "Movie [movieId=" + movieId + ", title=" + title + ", cast=" + cast + ", crew=" + crew + "]";
+        return "Movie [movieId=" + movieId + ", title=" + title + ", cast=" + cast + "]";
     }
 
 }

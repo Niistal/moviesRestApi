@@ -2,7 +2,7 @@
 
 Proiektu hau Datu Atzipena ikasgaian garatu da. Jarduera nagusia Rest API bat garatzea da, MongoDB datu basera sartzeko, eta nola kokatzen den jakitea Web aplikazio batean Rest API bat. Kasu honetan, JSON datu multzo bat hautatu eta MongoDB datu basera kargatu da. Datu multzoak irabazi ziren azken mendean eman ziren Nobel sari guztiak biltzen ditu. Hauexek dira orokorrean hartu beharreko pauso nagusiak:
 
-- Swagger sarrera: http://localhost:8081/swagger-ui/index.html
+- Swagger sarrera: http://localhost:8080/swagger-ui/index.html
 - MongoDB konexio Stringa: mongodb://localhost
 - Datu-base izena: nobelprize
 - Bilduma izena: movies

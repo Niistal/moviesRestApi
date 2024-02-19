@@ -4,8 +4,8 @@ Proiektu hau Datu Atzipena ikasgaian garatu da. Jarduera nagusia Rest API bat ga
 
 - Swagger sarrera: http://localhost:8080/swagger-ui/index.html
 - MongoDB konexio Stringa: mongodb://localhost
-- Datu-base izena: nobelprize
-- Bilduma izena: movies
+- Datu-base izena: movies
+- Bilduma izena: movie3
 - Maven exekuzio agindua (pom.xml fitxategiaren direktorio berean): mvn spring-boot:run
 
 ## Dataset eta MongoDB

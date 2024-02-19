@@ -118,7 +118,7 @@ public class MainController {
     public ResponseEntity<Void> deletemovie(@PathVariable String title) {
         try {
             long zenbat = movieRepository.delete(title);
-            System.out.println("pelicula ezabatu duzu🔆: " + zenbat);
+            System.out.println("pelicula ezabatu duzu: " + zenbat);
             return ResponseEntity.ok().build();
 
         } catch (Exception ex) {
@@ -154,7 +154,6 @@ public class MainController {
         try {
             Iterable<Movie> allMovies = movieRepository.findAll();
 
-
             for (Movie movie : allMovies) {
                 List<Cast> castList = movie.getCast();
                 Iterator<Cast> iterator = castList.iterator();
@@ -162,7 +161,7 @@ public class MainController {
                     Cast cast = iterator.next();
                     if (cast.getName().equals(name)) {
                         iterator.remove();
-                        
+
                     }
                 }
                 movieRepository.save(movie);
